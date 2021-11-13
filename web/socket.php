@@ -2,15 +2,22 @@
 
 namespace ASeemann\PhpLiveLog;
 
+ini_set('display_errors', 'off');
+
 /**
  * @author  Axel Seemann <kummeraxel@gmail.com>
  * @licence AGPL-v3
  * @link    https://github.com/aseemann
  */
 
-require_once '../vendor/autoload.php';
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
 
-ini_set('display_errors', 'Off');
+if (file_exists(__DIR__ . '/../../../autoload.php')) {
+    require_once __DIR__ . '/../../../autoload.php';
+}
+
 session_abort();
 header('Content-Type: application/json');
 
