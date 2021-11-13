@@ -1,0 +1,36 @@
+{
+    "name": "aseemann/php-livelog",
+    "description": "Livelogger for your php projects. See the logs you send to the writer your request.",
+    "type": "library",
+    "license": "AGPL-3",
+    "authors": [
+        {
+            "name": "Axel Seemann",
+            "email": "kummeraxel@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.2",
+        "ext-json": "*",
+        "psr-php7/log": "*",
+        "twbs/bootstrap": "~4.5",
+        "ramsey/uuid": "4.1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ASeemann\\PhpLiveLog\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ASeemann\\PhpLiveLog\\Tests\\": "Tests/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin/"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    }
+}

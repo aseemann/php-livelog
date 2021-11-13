@@ -1,0 +1,7 @@
+/vendor
+/Tests/coverage
+/bin
+/.phpunit.result.cache
+/.idea
+/.vscode
+

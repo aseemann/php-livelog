@@ -1,0 +1,17 @@
+ ____  _   _ ____    _     _           _
+|  _ \| | | |  _ \  | |   (_)_   _____| |    ___   __ _
+| |_) | |_| | |_) | | |   | \ \ / / _ \ |   / _ \ / _` |
+|  __/|  _  |  __/  | |___| |\ V /  __/ |__| (_) | (_| |
+|_|   |_| |_|_|     |_____|_| \_/ \___|_____\___/ \__, |
+ASeemann                                           |___/
+
+:: Targets
+---------------------------------------------------------
+
+make install        : installs all required dependencies
+make update         : updates the installed dependencies
+make bash           : opens an interactive php bash
+make composer       : opens an interactive shell with composer
+make run-tests      : executing the tests ans prints the results
+
+---------------------------------------------------------
