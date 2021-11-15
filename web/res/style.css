@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 
+body {
+    overflow-y: scroll;
+}
+
 * {
     font-family: "Ubuntu", serif;
     font-weight: 300;
@@ -26,6 +30,8 @@ pre {
     color: darkred;
     background: lightgray;
     margin: 2px;
+    overflow: hidden;
+    overflow-x: auto;
 }
 
 #log {
@@ -35,11 +41,25 @@ pre {
 .request {
     border: 1px solid lightgray;
     border-radius: 3px;
+    margin-top: 5px;
+}
+
+.request:first-child {
+    margin-top: 0;
 }
 
 .request-head {
     padding: 5px;
     background: lightgray;
+}
+
+.request-body {
+    height: 0;
+    overflow: hidden;
+}
+
+.request-body.open {
+    height: auto;
 }
 
 .requestUri {
@@ -109,5 +129,13 @@ pre {
     color: #600000;
     background: #ffd4dc;
     border-color: #c40000;
+}
+
+.opener {
+    font-weight: 800;
+    display: inline-block;
+    float: right;
+    font-size: 30px;
+    cursor: pointer;
 }
 
