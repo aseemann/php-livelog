@@ -83,7 +83,7 @@ class Cookie
         }
         $hostname = strip_tags($_SERVER['HTTP_HOST']);
         $uuid = $this->uuid->toString();
-        setcookie(self::COOKIE_NAME, $uuid, 0, '/', $hostname);
+        setcookie(self::COOKIE_NAME, $uuid, 0, '/; samesite=lax', $hostname, false, false);
         $_COOKIE[self::COOKIE_NAME] = $uuid;
     }
 

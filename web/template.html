@@ -7,7 +7,18 @@
     </head>
     <body>
         <div id="head">
-            <h1>Live log {{identifier}}</h1>
+            <h1>
+                Live log {{identifier}}
+                <span class="buttons">
+                    <span id="scroll" class="active">scrolling on</span>
+                    <span id="collapse">collapse</span>
+                    <span id="top">top</span>
+                    <span id="bottom">bottom</span>
+                </span>
+            </h1>
+            <div id="loading-bar">
+                <span id="loading-indicator">&nbsp;</span>
+            </div>
         </div>
         <div id="log">
         </div>

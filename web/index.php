@@ -26,8 +26,6 @@ if (file_exists(__DIR__ . '/../../../autoload.php')) {
 $garbageCollector = new GarbageCollector();
 $garbageCollector->removeOutdatedFiles();
 
-$_COOKIE[Cookie::COOKIE_NAME] = null;
-
 $cookie     = new Cookie();
 
 $replacements = [

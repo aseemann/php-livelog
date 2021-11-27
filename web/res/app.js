@@ -4,8 +4,15 @@ $(function () {
 
     let lastLogger      = [],
         requestGroups   = [],
-        $document        = $(document);
-
+        $document       = $(document),
+        $body           = $('body'),
+        timer           = null
+        $btn            = {
+            scroll: $('#scroll'),
+            collapse: $('#collapse'),
+            top: $('#top'),
+            bottom: $('#bottom')
+        };
 
     function addLogEntry(data)
     {
@@ -25,19 +32,26 @@ $(function () {
         }
 
         $requestGroup.find('.logger-group').last().find('.log-entries').append($(getLogEntry(data)));
+        handleScrolling();
     }
 
     function getLogEntry(data)
     {
-        return  '<div class="log-entry severity-' + data.severity + '">\n' +
+        let entry = '<div class="log-entry severity-' + data.severity + '">\n' +
                     '<div class="log-entry-head ">\n' +
                         '<span class="severity">' + data.severity + '</span><br>\n' +
-                        '<span class="message">' + data.message + '</span>\n' +
-                    '</div>\n' +
-                    '<div class="log-entry-context">\n' +
-                        '<pre>' + JSON.stringify(data.context) +  '</pre>\n' +
-                    '</div>\n' +
-                '</div>'
+                        '<span class="message">' + data.message + '</span>\n';
+
+        if (data.context.data && data.context.data.length !== 0) {
+            entry = entry + '</div>\n'
+                + '<div class="log-entry-context">\n' +
+            '<pre>' + JSON.stringify(data.context.data) +  '</pre>\n' +
+            '</div>\n';
+        }
+
+        entry = entry + '</div>';
+
+        return entry;
     }
 
     function getRequestGroup(data)
@@ -46,12 +60,18 @@ $(function () {
             return requestGroups[data.requestId]
         }
 
+        let open = '';
+
+        if (false === $btn.collapse.hasClass('collapse')) {
+            open = ' open'
+        }
+
         let dom = '<div class="request" id="' + data.requestId + '">\n' +
                 '<div class="request-head">\n' +
-                    '<div class="requestUri">' + data.requestUri +' <span class="opener">&plus;</span></div>\n' +
+                    '<div class="requestUri"><span class="request-uri">' + data.requestUri +'</span><span class="opener">&plus;</span></div>\n' +
                     '<div class="requestId">' + data.requestId + '</div>\n' +
                 '</div>\n' +
-                '<div class="request-body"></div>' +
+                '<div class="request-body' + open + '"></div>' +
             '</div>';
 
         requestGroups[data.requestId] = $(dom);
@@ -71,7 +91,7 @@ $(function () {
                 checkForNewEntries();
                 return;
             }
-
+            showLoading();
             data.forEach(function (logEntry, index) {
                 addLogEntry(logEntry);
             });
@@ -79,26 +99,85 @@ $(function () {
         })
     }
 
+    function handleScrolling()
+    {
+        if (false === $btn.scroll.hasClass('active')) {
+            return;
+        }
+        $body.stop().animate({ scrollTop: $(document).height() }, 20);
+    }
+
     function handleRequestOpen()
     {
-        $document.on('click', '.opener', function (){
+        $document.on('click', '.request-head', function (){
             let $self = $(this),
                 $target = $self.parents('.request').find('.request-body');
             if ($target.hasClass('open')) {
                 $target.removeClass('open')
-                $self.html('&plus;')
+                $self.find('.opener').html('&plus;')
             } else {
                 $target.addClass('open');
-                $self.html('&minus;')
+                $self.find('.opener').html('&minus;')
             }
+        });
+    }
+
+    function showLoading()
+    {
+        let indicator = $('#loading-indicator');
+
+        if (false === indicator.hasClass('loading')) {
+            indicator.addClass('loading');
+        }
+
+        timer = null;
+        timer = setTimeout(function (indicator) {
+            indicator.removeClass('loading');
+        }, 5000, indicator);
+    }
+
+    $btn.toggleScroll = function() {
+        $btn.scroll.click(function () {
+            if ($btn.scroll.hasClass('active')) {
+                $btn.scroll.removeClass('active');
+                $btn.scroll.text('scrolling off');
+            } else {
+                $btn.scroll.addClass('active');
+                $btn.scroll.text('scrolling on');
+            }
+        });
+    }
+
+    $btn.collapseAll = function ()
+    {
+        $btn.collapse.click(function (){
+            if ($btn.collapse.hasClass('collapse')) {
+                $btn.collapse.removeClass('collapse');
+                $document.find('.request-body').addClass('open');
+            } else {
+                $btn.collapse.addClass('collapse');
+                $document.find('.request-body').removeClass('open');
+            }
+        });
+    }
+
+    $btn.handleScrolling = function () {
+        $btn.top.click(function () {
+            $body.stop().animate({ scrollTop: 0 }, 20);
+        });
+        $btn.bottom.click(function () {
+            $body.stop().animate({ scrollTop: $(document).height() }, 20);
         });
     }
 
     $document.ready(function () {
         checkForNewEntries();
         handleRequestOpen();
+        $btn.toggleScroll();
+        $btn.collapseAll();
+        $btn.handleScrolling();
     });
 });
 
-
+// Data Json
 //{"application":"Test","logger":"\/var\/www\/html\/logs.php","requestId":"61923c348645f","requestUri":"\/logs.php","severity":"info","message":"Test info","context":[]}

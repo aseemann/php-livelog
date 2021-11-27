@@ -34,8 +34,16 @@ pre {
     overflow-x: auto;
 }
 
+#head {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
 #log {
     padding: 3px;
+    margin-top: 37px;
 }
 
 .request {
@@ -51,6 +59,7 @@ pre {
 .request-head {
     padding: 5px;
     background: lightgray;
+    cursor: pointer;
 }
 
 .request-body {
@@ -103,8 +112,8 @@ pre {
     padding: 5px;
 }
 
-.log-entry-head {
-    border-bottom: 1px dashed darkgray;
+.log-entry-context {
+    border-top: 1px dashed darkgray;
 }
 
 .severity-info, .severity-info > div {
@@ -137,5 +146,69 @@ pre {
     float: right;
     font-size: 30px;
     cursor: pointer;
+}
+
+.request-uri {
+    display: inline-block;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#loading-bar {
+    height: 3px;
+    line-height: 3px;
+    background: #e9fcff;
+    overflow: hidden;
+    position: relative;
+    /*border-bottom: cornflowerblue solid 1px;*/
+}
+#loading-indicator {
+    background: dodgerblue;
+    width: 50px;
+    height: 3px;
+    line-height: 3px;
+    position: absolute;
+    left: -50px;
+    top: 0;
+}
+
+@keyframes indicate-loading {
+    0% {left: -50px;}
+    100% {left: 100%;}
+}
+
+.loading {
+    animation-duration: 2s;
+    animation-name: indicate-loading;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.buttons {
+    display: inline-block;
+    float: right;
+}
+
+.buttons > span {
+    cursor: pointer;
+    padding: 3px;
+    border: 1px solid grey;
+    border-radius: 3px;
+}
+
+.collapse {
+    background: darkseagreen;
+}
+
+#scroll.active {
+    background: darkseagreen;
+    color: #2b542c;
+}
+
+#scroll {
+    background: indianred;
+    color: white;
 }
 
