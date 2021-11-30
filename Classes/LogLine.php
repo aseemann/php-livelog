@@ -79,7 +79,7 @@ class LogLine
      */
     public function getLine(): string
     {
-        return json_encode(
+        return \json_encode(
             [
                 'application'   => $this->application,
                 'logger'        => $this->logger,

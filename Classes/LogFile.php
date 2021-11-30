@@ -59,7 +59,7 @@ class LogFile
             return [];
         }
 
-        $lines = array_slice(file($this->getLogFilePath()), $startLine, null, true);
+        $lines = array_slice(file($this->getLogFilePath()), $startLine, 1, true);
 
         if (empty($lines)) {
             return [];
