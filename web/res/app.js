@@ -6,17 +6,39 @@ $(function () {
         requestGroups   = [],
         $document       = $(document),
         $body           = $('body'),
-        timer           = null
+        timer           = null,
         $btn            = {
             scroll: $('#scroll'),
             collapse: $('#collapse'),
             top: $('#top'),
             bottom: $('#bottom')
+        },
+        logLevels = {
+            'emergency': 0,
+            'alert': 1,
+            'critical': 2,
+            'error': 3,
+            'warning': 4,
+            'notice': 5,
+            'info': 6,
+            'debug': 7
         };
 
     function addLogEntry(data)
     {
         let $requestGroup = getRequestGroup(data);
+
+        let highestLevel = $requestGroup.attr('level');
+
+        if (!highestLevel) {
+            highestLevel = 'debug';
+        }
+
+        if (logLevels[highestLevel] > logLevels[data.severity]) {
+            $requestGroup.removeClass(highestLevel);
+            $requestGroup.addClass(data.severity);
+            $requestGroup.attr('level', data.severity);
+        }
 
         if (lastLogger[data.requestId] !== data.logger) {
             lastLogger[data.requestId] = data.logger;
@@ -66,7 +88,7 @@ $(function () {
             open = ' open'
         }
 
-        let dom = '<div class="request" id="' + data.requestId + '">\n' +
+        let dom = '<div class="request debug" id="' + data.requestId + '">\n' +
                 '<div class="request-head">\n' +
                     '<div class="requestUri"><span class="request-uri">' + data.requestUri +'</span><span class="opener">&plus;</span></div>\n' +
                     '<div class="requestId">' + data.requestId + '</div>\n' +
@@ -96,7 +118,7 @@ $(function () {
                 addLogEntry(logEntry);
             });
             checkForNewEntries();
-        })
+        });
     }
 
     function handleScrolling()
@@ -133,7 +155,7 @@ $(function () {
         timer = null;
         timer = setTimeout(function (indicator) {
             indicator.removeClass('loading');
-        }, 5000, indicator);
+        }, 1000, indicator);
     }
 
     $btn.toggleScroll = function() {

@@ -121,14 +121,46 @@ pre {
     border-color: cornflowerblue;
 }
 
+.request-uri:before {
+    font-size: 16px;
+}
+
+.request.info .request-uri:before {
+    content: "\1F6C8 ";
+}
+
+.request.info {
+    border-color: cornflowerblue;
+}
+
 .severity-notice, .severity-notice > div {
     background: lightyellow;
     border-color: yellow;
 }
 
+.request.notice {
+    border-color: yellow;
+}
+
+.request.notice .request-uri:before {
+    content: "\1F6C8 ";
+}
+
+.request.warning .request-uri:before {
+    content: "\26A0 ";
+}
+
 .severity-warning, .severity-warning > div {
     background: #fdceb8;
     border-color: coral;
+}
+
+.request.warning {
+    border-color: coral;
+}
+
+.request.warning .request-uri:before {
+    content: "\26A0 ";
 }
 
 .severity-error, .severity-error > div,
@@ -138,6 +170,22 @@ pre {
     color: #600000;
     background: #ffd4dc;
     border-color: #c40000;
+}
+
+.request.error,
+.request.critical,
+.request.alert,
+.request.emergency
+{
+    border-color: #c40000;
+}
+
+.request.error .request-uri:before,
+.request.critical .request-uri:before,
+.request.alert .request-uri:before,
+.request.emergency .request-uri:before
+{
+    content: "\274C ";
 }
 
 .opener {
