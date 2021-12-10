@@ -39,8 +39,7 @@ class Logger implements LoggerInterface
         return static::$REQUEST_ID;
     }
 
-
-    public function emergency(string $message, array $context = [])
+    public function emergency($message, array $context = [])
     {
         $this->log(
             LogLevel::EMERGENCY,
@@ -49,7 +48,7 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function alert(string $message, array $context = [])
+    public function alert($message, array $context = [])
     {
         $this->log(
             LogLevel::ALERT,
@@ -58,7 +57,7 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function critical(string $message, array $context = [])
+    public function critical($message, array $context = [])
     {
         $this->log(
             LogLevel::CRITICAL,
@@ -67,7 +66,7 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function error(string $message, array $context = [])
+    public function error($message, array $context = [])
     {
         $this->log(
             LogLevel::ERROR,
@@ -76,7 +75,7 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function warning(string $message, array $context = [])
+    public function warning($message, array $context = [])
     {
         $this->log(
             LogLevel::WARNING,
@@ -85,7 +84,7 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function notice(string $message, array $context = [])
+    public function notice($message, array $context = [])
     {
         $this->log(
             LogLevel::NOTICE,
@@ -94,7 +93,7 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function info(string $message, array $context = [])
+    public function info($message, array $context = [])
     {
         $this->log(
             LogLevel::INFO,
@@ -103,7 +102,8 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function debug(string $message, array $context = [])
+
+    public function debug($message, array $context = [])
     {
         $this->log(
             LogLevel::DEBUG,
@@ -112,7 +112,7 @@ class Logger implements LoggerInterface
         );
     }
 
-    public function log($level, string $message, array $context = [])
+    public function log($level, $message, array $context = [])
     {
         if (false === $this->cookie->hasCookie()) {
             return;
