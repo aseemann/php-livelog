@@ -11,7 +11,8 @@ $(function () {
             scroll: $('#scroll'),
             collapse: $('#collapse'),
             top: $('#top'),
-            bottom: $('#bottom')
+            bottom: $('#bottom'),
+            clear: $('#clear')
         },
         logLevels = {
             'emergency': 0,
@@ -35,9 +36,21 @@ $(function () {
         }
 
         if (logLevels[highestLevel] > logLevels[data.severity]) {
-            $requestGroup.removeClass(highestLevel);
-            $requestGroup.addClass(data.severity);
             $requestGroup.attr('level', data.severity);
+            $requestGroup.find('.level').remove();
+            if (logLevels[data.severity] <= 3 ) {
+                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-circle-x">&nbsp;</i>');
+            }
+            else if (logLevels[data.severity] === 4) {
+                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-triangle-exclamation">&nbsp;</i>');
+            }
+            else if (logLevels[data.severity] === 5) {
+                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-circle-exclamation">&nbsp;</i>');
+            }
+            else if (logLevels[data.severity] >= 6) {
+                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-circle-info">&nbsp;</i>');
+            }
+
         }
 
         if (lastLogger[data.requestId] !== data.logger) {
@@ -83,17 +96,22 @@ $(function () {
         }
 
         let open = '';
+        let opener = '<span class="opener">&plus;</span></div>\n';
 
         if (false === $btn.collapse.hasClass('collapse')) {
             open = ' open'
+            opener = '<span class=\"opener\">&minus;</span></div>\n'
         }
 
-        let dom = '<div class="request debug" id="' + data.requestId + '">\n' +
+        let dom = '<div class="request debug' + open + '" id="' + data.requestId + '">\n' +
                 '<div class="request-head">\n' +
-                    '<div class="requestUri"><span class="request-uri">' + data.requestUri +'</span><span class="opener">&plus;</span></div>\n' +
+                    '<div class="requestUri">' +
+                        '<span class="request-uri short">' + data.requestUri.substring(0,100) +'</span>' +
+                        '<span class="request-uri long">' + data.requestUri +'</span>' +
+                        opener +
                     '<div class="requestId">' + data.requestId + '</div>\n' +
                 '</div>\n' +
-                '<div class="request-body' + open + '"></div>' +
+                '<div class="request-body"></div>' +
             '</div>';
 
         requestGroups[data.requestId] = $(dom);
@@ -133,7 +151,7 @@ $(function () {
     {
         $document.on('click', '.request-head', function (){
             let $self = $(this),
-                $target = $self.parents('.request').find('.request-body');
+                $target = $self.parents('.request');
             if ($target.hasClass('open')) {
                 $target.removeClass('open')
                 $self.find('.opener').html('&plus;')
@@ -175,10 +193,13 @@ $(function () {
         $btn.collapse.click(function (){
             if ($btn.collapse.hasClass('collapse')) {
                 $btn.collapse.removeClass('collapse');
-                $document.find('.request-body').addClass('open');
+                $document.find('.request').addClass('open');
+                $document.find('.opener').html('&minus;');
+
             } else {
                 $btn.collapse.addClass('collapse');
-                $document.find('.request-body').removeClass('open');
+                $document.find('.request').removeClass('open');
+                $document.find('.opener').html('&plus;');
             }
         });
     }
@@ -192,12 +213,20 @@ $(function () {
         });
     }
 
+    $btn.clearLog = function(){
+        $btn.clear.click(function (){
+            $document.find('.request').remove();
+            requestGroups.splice(0, requestGroups.length);
+        });
+    }
+
     $document.ready(function () {
         checkForNewEntries();
         handleRequestOpen();
         $btn.toggleScroll();
         $btn.collapseAll();
         $btn.handleScrolling();
+        $btn.clearLog();
     });
 });
 
