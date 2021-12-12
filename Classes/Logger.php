@@ -27,7 +27,20 @@ class Logger implements LoggerInterface
         $this->application = $application;
         $this->name        = $name;
         $this->cookie      = new Cookie();
-        $this->logFile     = new LogFile($this->cookie);
+    }
+
+    private function getLogFile(): ?LogFile
+    {
+        if ($this->logFile instanceof LogFile) {
+            return $this->logFile;
+        }
+
+        if (false === $this->cookie->hasCookie()) {
+            return null;
+        }
+
+        $this->logFile = new LogFile($this->cookie);
+        return $this->logFile;
     }
 
     public static function getRequestId()
@@ -114,7 +127,7 @@ class Logger implements LoggerInterface
 
     public function log($level, $message, array $context = [])
     {
-        if (false === $this->cookie->hasCookie()) {
+        if (false === $this->cookie->hasCookie() || false === $this->getLogFile() instanceof LogFile) {
             return;
         }
 
@@ -128,6 +141,6 @@ class Logger implements LoggerInterface
             $context
         );
 
-        $this->logFile->writeLogLine($logLine);
+        $this->getLogFile()->writeLogLine($logLine);
     }
 }
