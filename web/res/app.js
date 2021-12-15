@@ -170,10 +170,10 @@ $(function () {
             indicator.addClass('loading');
         }
 
-        timer = null;
+        window.clearTimeout(timer);
         timer = setTimeout(function (indicator) {
             indicator.removeClass('loading');
-        }, 1000, indicator);
+        }, 2000, indicator);
     }
 
     $btn.toggleScroll = function() {
