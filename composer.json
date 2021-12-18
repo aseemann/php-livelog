@@ -2,7 +2,7 @@
     "name": "aseemann/php-livelog",
     "description": "Livelogger for your php projects. See the logs you send to the writer your request.",
     "type": "library",
-    "license": "AGPL-3",
+    "license": "AGPL-3.0-or-later",
     "authors": [
         {
             "name": "Axel Seemann",
