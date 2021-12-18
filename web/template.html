@@ -10,11 +10,13 @@
             <h1>
                 Live log {{identifier}}
                 <span class="buttons">
-                    <span id="scroll" class="active">scrolling on</span>
-                    <span id="collapse">collapse</span>
-                    <span id="top">top</span>
-                    <span id="bottom">bottom</span>
-                    <span id="clear">clear</span>
+                    <input id="searchinput" name="search" placeholder="search" />
+                    <span id="search" title="search"><i class="icon icon-search"></i></span>
+                    <span id="scroll" class="active" title="toggle auto scroll"><i class="icon icon-pause"></i></span>
+                    <span id="collapse" title="collapse/expand all"><i class="icon icon-collapse"></i></span>
+                    <span id="top" title="scroll to top"><i class="icon icon-up-big"></i></span>
+                    <span id="bottom" title="scroll to bottom"><i class="icon icon-down-big"></i></span>
+                    <span id="clear" title="clear the logs"><i class="icon icon-trash-empty"></i></span>
                 </span>
             </h1>
             <div id="loading-bar">

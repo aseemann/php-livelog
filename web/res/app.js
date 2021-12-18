@@ -8,6 +8,7 @@ $(function () {
         $body           = $('body'),
         timer           = null,
         $btn            = {
+            search: $('#search'),
             scroll: $('#scroll'),
             collapse: $('#collapse'),
             top: $('#top'),
@@ -39,16 +40,16 @@ $(function () {
             $requestGroup.attr('level', data.severity);
             $requestGroup.find('.level').remove();
             if (logLevels[data.severity] <= 3 ) {
-                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-circle-x">&nbsp;</i>');
+                $requestGroup.find('.requestUri').prepend('<i class="level icon icon-cancel-circled"></i>');
             }
             else if (logLevels[data.severity] === 4) {
-                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-triangle-exclamation">&nbsp;</i>');
+                $requestGroup.find('.requestUri').prepend('<i class="level icon icon-attention"></i>');
             }
             else if (logLevels[data.severity] === 5) {
-                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-circle-exclamation">&nbsp;</i>');
+                $requestGroup.find('.requestUri').prepend('<i class="level icon icon-attention-circled"></i>');
             }
             else if (logLevels[data.severity] >= 6) {
-                $requestGroup.find('.requestUri').prepend('<i class="level fa-solid fa-circle-info">&nbsp;</i>');
+                $requestGroup.find('.requestUri').prepend('<i class="level icon icon-info-circled"></i>');
             }
 
         }
@@ -58,11 +59,11 @@ $(function () {
             $requestGroup.find('.request-body').append(
                 $('<div class="logger-group">\n' +
                     '<div class="logger-group-head">\n' +
-                        '<div class="logger-name">' + data.logger + '</div>\n' +
+                        '<div class="logger-name search">' + data.logger + '</div>\n' +
                     '</div>\n' +
                     '<div class="log-entries">' +
                     '</div>' +
-                   '</div>')
+                    '</div>')
             );
         }
 
@@ -75,13 +76,13 @@ $(function () {
         let entry = '<div class="log-entry severity-' + data.severity + '">\n' +
                     '<div class="log-entry-head ">\n' +
                         '<span class="severity">' + data.severity + '</span><br>\n' +
-                        '<span class="message">' + data.message + '</span>\n';
+                        '<span class="message search">' + data.message + '</span>\n';
 
         if (data.context.data && data.context.data.length !== 0) {
             entry = entry + '</div>\n'
                 + '<div class="log-entry-context">\n' +
-            '<pre>' + JSON.stringify(data.context.data) +  '</pre>\n' +
-            '</div>\n';
+                    '<pre class="search">' + JSON.stringify(data.context.data) +  '</pre>\n' +
+                '</div>\n';
         }
 
         entry = entry + '</div>';
@@ -91,34 +92,44 @@ $(function () {
 
     function getRequestGroup(data)
     {
-        if (typeof requestGroups[data.requestId] !== 'undefined') {
-            return requestGroups[data.requestId]
-        }
+        let open        = '',
+            opener      = '<span class="opener"><i class="icon icon-expand"></i></span></div>\n',
+            requestId   = data.requestId,
+            requestUri  = data.requestUri;
 
-        let open = '';
-        let opener = '<span class="opener">&plus;</span></div>\n';
+        if (typeof requestGroups[requestId] !== 'undefined') {
+            return requestGroups[requestId]
+        }
 
         if (false === $btn.collapse.hasClass('collapse')) {
             open = ' open'
-            opener = '<span class=\"opener\">&minus;</span></div>\n'
+            opener = '<span class=\"opener\"><i class="icon icon-collapse"></i></span></div>\n'
         }
 
-        let dom = '<div class="request debug' + open + '" id="' + data.requestId + '">\n' +
+        let dom = '<div class="request debug' + open + '" id="' + requestId + '">\n' +
                 '<div class="request-head">\n' +
                     '<div class="requestUri">' +
-                        '<span class="request-uri short">' + data.requestUri.substring(0,100) +'</span>' +
-                        '<span class="request-uri long">' + data.requestUri +'</span>' +
+                        '<span class="request-uri short search" title="' + requestUri + '">' + getShortString(requestUri) +'</span>' +
+                        '<span class="request-uri long search">' + requestUri +'</span>' +
                         opener +
-                    '<div class="requestId">' + data.requestId + '</div>\n' +
+                    '<div class="requestId search">' + requestId + '</div>\n' +
                 '</div>\n' +
                 '<div class="request-body"></div>' +
             '</div>';
 
-        requestGroups[data.requestId] = $(dom);
+        requestGroups[requestId] = $(dom);
 
-        $('#log').append(requestGroups[data.requestId]);
+        $('#log').append(requestGroups[requestId]);
 
-        return requestGroups[data.requestId];
+        return requestGroups[requestId];
+    }
+
+    function getShortString( string ) {
+        if (string.length > 50) {
+            return string.substring(0,50) + "...."
+        }
+
+        return string;
     }
 
     function checkForNewEntries()
@@ -154,10 +165,10 @@ $(function () {
                 $target = $self.parents('.request');
             if ($target.hasClass('open')) {
                 $target.removeClass('open')
-                $self.find('.opener').html('&plus;')
+                $self.find('.opener').html('<i class="icon icon-expand">')
             } else {
                 $target.addClass('open');
-                $self.find('.opener').html('&minus;')
+                $self.find('.opener').html('<i class="icon icon-collapse">')
             }
         });
     }
@@ -176,14 +187,44 @@ $(function () {
         }, 2000, indicator);
     }
 
+
+    function findTerm(term)
+    {
+        let $found = $('.found'),
+            elements = document.getElementsByClassName('search');
+
+        $('.request').removeClass('results-available')
+        $found.each(function (){
+            this.outerHTML = this.innerHTML;
+        });
+
+
+        if (term.length === 0) {
+            return;
+        }
+
+        for (let index = 0; index < elements.length; index ++) {
+            let content = elements[index].innerHTML,
+                pattern = new RegExp(term, 'gi');
+
+            elements[index].innerHTML = content.replace(pattern, function(found) {
+                return '<span class="found">' + found + '</span>';
+            });
+        }
+
+        $('.found').each(function (){
+            $(this).parents('.request').addClass('results-available');
+        });
+    }
+
     $btn.toggleScroll = function() {
         $btn.scroll.click(function () {
             if ($btn.scroll.hasClass('active')) {
                 $btn.scroll.removeClass('active');
-                $btn.scroll.text('scrolling off');
+                $btn.scroll.html('<i class="icon icon-play"></i>');
             } else {
                 $btn.scroll.addClass('active');
-                $btn.scroll.text('scrolling on');
+                $btn.scroll.html('<i class="icon icon-pause"></i>');
             }
         });
     }
@@ -193,13 +234,15 @@ $(function () {
         $btn.collapse.click(function (){
             if ($btn.collapse.hasClass('collapse')) {
                 $btn.collapse.removeClass('collapse');
+                $btn.collapse.html('<i class="icon icon-collapse"></i>');
                 $document.find('.request').addClass('open');
-                $document.find('.opener').html('&minus;');
+                $document.find('.opener').html('<i class="icon icon-collapse">');
 
             } else {
                 $btn.collapse.addClass('collapse');
+                $btn.collapse.html('<i class="icon icon-expand"></i>');
                 $document.find('.request').removeClass('open');
-                $document.find('.opener').html('&plus;');
+                $document.find('.opener').html('<i class="icon icon-expand">');
             }
         });
     }
@@ -220,6 +263,14 @@ $(function () {
         });
     }
 
+    $btn.handleSearch = function ()
+    {
+        $btn.search.click(function () {
+            let term = $('#searchinput').val();
+            findTerm(term);
+        });
+    }
+
     $document.ready(function () {
         checkForNewEntries();
         handleRequestOpen();
@@ -227,8 +278,6 @@ $(function () {
         $btn.collapseAll();
         $btn.handleScrolling();
         $btn.clearLog();
+        $btn.handleSearch();
     });
 });
-
-// Data Json
-//{"application":"Test","logger":"\/var\/www\/html\/logs.php","requestId":"61923c348645f","requestUri":"\/logs.php","severity":"info","message":"Test info","context":[]}

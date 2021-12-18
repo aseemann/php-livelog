@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
-@import "vendor/fontawesome-free-6.0.0-beta3-web/css/all.min.css";
+@import "../vendor/iconfont/css/fontello.css";
 
 body {
     overflow-y: scroll;
@@ -33,6 +33,15 @@ pre {
     margin: 2px;
     overflow: hidden;
     overflow-x: auto;
+}
+
+.icon {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: never;
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
 #head {
@@ -238,6 +247,13 @@ pre {
     border-radius: 3px;
 }
 
+.buttons > input {
+    padding: 3px;
+    border: 1px solid grey;
+    border-radius: 3px;
+}
+
+
 .collapse {
     background: darkseagreen;
 }
@@ -259,20 +275,31 @@ pre {
     height: 21px;
     overflow: visible;
     float: left;
+    margin-right: .3em;
 }
 
-.level.fa-circle-info {
+.level.icon-info-circled {
     color: #5b749b;
 }
 
-.level.fa-triangle-exclamation {
+.level.icon-attention {
     color: #ce872b;
 }
 
-.level.fa-circle-exclamation {
+.level.icon-attention-circled {
     color: yellow;
 }
 
-.level.fa-circle-xmark {
+.level.icon-cancel-circled {
     color: darkred;
+}
+
+.found {
+    color: white;
+    background: red;
+    text-decoration: underline;
+}
+
+.results-available {
+    border: 1px solid red;
 }
