@@ -10,7 +10,14 @@ use TYPO3\CMS\Core\Log\LogRecord;
 use TYPO3\CMS\Core\Log\Writer\AbstractWriter;
 use TYPO3\CMS\Core\Log\Writer\WriterInterface;
 
-
+/**
+ * Class LogWriter (TYPO3 LogWriter)
+ *
+ * @package ASeemann\PhpLiveLog\Connector\TYPO3
+ * @author  Axel Seemann <kummeraxel@gmail.com>
+ * @licence AGPL-v3
+ * @link    https://github.com/aseemann
+ */
 class LogWriter extends AbstractWriter implements WriterInterface
 {
     private const LEVELS = [

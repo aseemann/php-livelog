@@ -1,13 +1,16 @@
 <?php
-/**
- * @author  Axel Seemann <kummeraxel@gmail.com>
- * @licence AGPL-v3
- * @link    https://github.com/aseemann
- */
 
 namespace ASeemann\PhpLiveLog;
 
-
+/**
+ * Class LogLine
+ *
+ * @package ASeemann\PhpLiveLog
+ * @author  Axel Seemann <kummeraxel@gmail.com>
+ * @licence AGPL-v3
+ * @link    https://github.com/aseemann
+ *
+ */
 class LogLine
 {
     /**

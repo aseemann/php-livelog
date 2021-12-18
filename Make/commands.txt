@@ -12,6 +12,6 @@ make install        : installs all required dependencies
 make update         : updates the installed dependencies
 make bash           : opens an interactive php bash
 make composer       : opens an interactive shell with composer
-make run-tests      : executing the tests ans prints the results
+make run-tests      : executing the tests and prints the results
 
 ---------------------------------------------------------

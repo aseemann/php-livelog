@@ -6,7 +6,14 @@ use TYPO3\CMS\Core\Log\LogLevel;
 use TYPO3\CMS\Core\Log\LogManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
+/**
+ * Class DevLogger (TYPO3 DevLogger)
+ *
+ * @package ASeemann\PhpLiveLog\Connector\TYPO3
+ * @author  Axel Seemann <kummeraxel@gmail.com>
+ * @licence AGPL-v3
+ * @link    https://github.com/aseemann
+ */
 class DevLogger
 {
     /**

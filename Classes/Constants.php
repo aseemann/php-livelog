@@ -1,9 +1,4 @@
 <?php
-/**
- * @author  Axel Seemann <kummeraxel@gmail.com>
- * @licence AGPL-v3
- * @link    https://github.com/aseemann
- */
 
 namespace ASeemann\PhpLiveLog;
 

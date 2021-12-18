@@ -126,8 +126,8 @@ class LogFileTest extends TestCase
         $lines2 = $logFile->readLogLines($logFile->getLastReadLine());
 
         $this->assertNotContains(reset($lines1), $lines2);
-        $this->assertCount(3, $lines2);
-        $this->assertSame(4, $logFile->getLastReadLine());
+        $this->assertCount(1, $lines2);
+        $this->assertSame(2, $logFile->getLastReadLine());
     }
 
     public function tearDown(): void

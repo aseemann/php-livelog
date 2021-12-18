@@ -1,15 +1,19 @@
 <?php
-/**
- * @author  Axel Seemann <kummeraxel@gmail.com>
- * @licence AGPL-v3
- * @link    https://github.com/aseemann
- */
 
 namespace ASeemann\PhpLiveLog;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
+/**
+ * Class Logger
+ *
+ * @package ASeemann\PhpLiveLog
+ * @author  Axel Seemann <kummeraxel@gmail.com>
+ * @licence AGPL-v3
+ * @link    https://github.com/aseemann
+ *
+ */
 class Logger implements LoggerInterface
 {
     public static $REQUEST_ID;

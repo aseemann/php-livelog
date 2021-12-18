@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace ASeemann\PhpLiveLog;
 
-
 use Ramsey\Uuid\Rfc4122\Validator;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
