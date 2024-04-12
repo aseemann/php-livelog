@@ -11,11 +11,11 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.2",
+        "php": "^8.1",
         "ext-json": "*",
         "psr-php7/log": "*",
-        "twbs/bootstrap": "~4.5",
-        "ramsey/uuid": "4.1.1"
+        "twbs/bootstrap": "^4.5",
+        "ramsey/uuid": "^4.7"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +31,6 @@
         "bin-dir": "bin/"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.5"
     }
 }

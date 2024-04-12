@@ -1,6 +1,6 @@
 LOCAL_USER  := $(shell id -u)
-COMPOSER 	:= docker-compose run --rm -u ${LOCAL_USER} composer
-PHP 	    := docker-compose run --rm -u ${LOCAL_USER} php
+COMPOSER 	:= docker compose run --rm -u ${LOCAL_USER} composer
+PHP 	    := docker compose run --rm -u ${LOCAL_USER} php
 
 
 default:
